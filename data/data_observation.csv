@@ -1,0 +1,11 @@
+﻿children_id;sex;observer;number_of_group_movements;number_of_zones_explored;distance_travelled;movement_autonomy;number_of_spontaneous_outings;orientation_towards_artwork;physical_approach;offset_approach;postural_adjustment;overall_motor_engagement;interaction_with_environment;observation_time;number_of_stops_during_observation;interaction_with_peers;interaction_with_adults
+obs1_f;f;obs1;4;8;300;0;0;2;0;0;1;0;2;4;0;1;1
+obs1_g;g;obs1;4;8;300;1;1;1;0;0;2;1;2;4;0;1;0
+obs2_f;f;obs2;5;0;300;1;4;1;0;0;2;2;2;NA;3;0;2
+obs2_g;g;obs2;5;0;300;1;2;1;0;0;1;1;1;NA;3;0;2
+obs3_f;f;obs3;4;4;300;1;0;2;0;0;0;1;1;NA;0;1;0
+obs3_g;g;obs3;4;4;300;1;0;2;0;0;2;1;0;NA;0;1;0
+obs4_f;f;obs4;NA;NA;300;0;0;1;0;0;1;1;1;NA;0;0;1
+obs4_g;g;obs4;NA;NA;300;0;0;2;1;1;2;1;1;NA;0;0;0
+obs5_f;f;obs5;3;9;300;0;0;2;NA;NA;2;1;1;NA;0;2;NA
+obs5_g;g;obs5;3;9;300;0;0;1;NA;NA;5;2;1;NA;0;1;NA
