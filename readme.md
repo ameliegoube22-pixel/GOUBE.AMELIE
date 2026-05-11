@@ -2,7 +2,7 @@
 
 ## Analysis of Children’s Movement, Spatial Exploration, and Interaction Behaviors in a Museum Environment
 
-By Goubé Amélie 
+By Goubé Amélie *M2 Human Movement Science - MAM2ADMM Project*
 
 ---
 
@@ -18,13 +18,36 @@ However, observational data collected in museum settings are often complex and m
 
 The present project aims to explore observational indicators related to movement, spatial exploration, and environmental engagement in children observed during museum visits.
 
-### Research objective
+### 1.2 Research Objectives
+* **Main Objective**: To analyze children’s movement and interaction behaviors in a museum setting using observational data.
+* **Research Question**: How do children explore museum spaces and engage physically and socially with the environment during observation sessions?
+* **Hypothesis**: Movement and exploration patterns may differ based on the gender of the children.
 
-To analyze children’s movement and interaction behaviors in a museum setting using observational data.
+---
 
-### Research question
+## 2. Scientific Dimensions
 
-How do children explore museum spaces and engage physically and socially with the environment during observation sessions?
+The observational indicators are grouped into four theoretical dimensions:
+* **Spatial Exploration**: Number of zones visited, distance travelled, and movement autonomy.
+* **Engagement with Artwork**: Body orientation, postural adjustments, and physical approach.
+* **Motor Engagement**: Overall physical activity and environmental interactions.
+* **Social Interactions**: Peer-to-peer and child-adult social dynamics.
 
+---
+
+## 3. Project Structure
+
+This project follows the **"Safe Project Logic"** for reproducible science:
+
+```text
+MAM2ADMM/Fabre_Museum_Project/
+├── data/               # Original and cleaned datasets
+│   ├── data_observation.csv    # Raw data
+│   └── data_clean.csv          # Cleaned data exported from Python
+├── results/figures            # Visualizations and exported figures
+├── memoire_musee.ipynb          # Python entry point: Cleaning, EDA & Export
+├── memoire_musee.Rmd            # R entry point: Normality tests & Statistics
+├── memoire_musee.Rproj          # RStudio project file
+└── readme.md           # Project documentation
 ---
 
