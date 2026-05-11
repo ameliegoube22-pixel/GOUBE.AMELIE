@@ -1,0 +1,11 @@
+sex;number_of_zones_explored;distance_travelled;movement_autonomy;orientation_towards_artwork;postural_adjustment;physical_approach;overall_motor_engagement;interaction_with_environment;interaction_with_peers;interaction_with_adults
+f;8.0;300;0;2;1;0.0;0;2;1;1.0
+g;8.0;300;1;1;2;0.0;1;2;1;0.0
+f;0.0;300;1;1;2;0.0;2;2;0;2.0
+g;0.0;300;1;1;1;0.0;1;1;0;2.0
+f;4.0;300;1;2;0;0.0;1;1;1;0.0
+g;4.0;300;1;2;2;0.0;1;0;1;0.0
+f;;300;0;1;1;0.0;1;1;0;1.0
+g;;300;0;2;2;1.0;1;1;0;0.0
+f;9.0;300;0;2;2;;1;1;2;
+g;9.0;300;0;1;5;;2;1;1;
