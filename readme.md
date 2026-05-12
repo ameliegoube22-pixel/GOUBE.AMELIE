@@ -55,15 +55,14 @@ Python Libraries: pandas, numpy, matplotlib, seaborn.
 
 R Packages: tidyverse, rstatix, ggpubr.
 
-VI. Scientific synthesis
+## Scientific synthesis
 Due to the small sample size and non-normal distribution of the data (confirmed by Shapiro-Wilk tests), we utilized the Wilcoxon Rank Sum Test.
 
 Key Findings:
 While several p-values exceed the 0.05 threshold due to limited power, the Effect Sizes (r) suggest moderate behavioral trends (r≈0.35). Specifically, postural adjustment and interaction with adults appear to vary between groups, though these results should be interpreted with caution and would benefit from a larger cohort study.
 
+
 ## 5. Sources 
-<<<<<<< HEAD
-=======
 # 1. Spatial and Material Engagement
 
 Young children’s museum geographies: spatial, material and bodily ways of knowing
@@ -119,4 +118,3 @@ Key Findings: "Zigging and zooming" (fluid movements) allow children to build me
 Relevance to Project: Validates spatial trajectories, distance travelled, and body orientation towards artworks.
 
 Reference: Journal of Early Childhood Literacy | DOI: 10.1177/1468798412453730
->>>>>>> 7edc298ae25f7ea1324efd6e587c64a08f9e244b
