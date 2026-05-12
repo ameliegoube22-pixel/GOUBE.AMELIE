@@ -8,7 +8,7 @@ By Goubé Amélie *M2 Human Movement Science - MAM2ADMM Project*
 ## 1. Project Overview
 This research project investigates children’s movement, spatial exploration, and interaction behaviors at the **Fabre Museum** (Montpellier). By analyzing observational data, we aim to understand how young visitors engage with artworks and navigate the museum environment.
 
-* **Research Question**: How do children explore museum spaces and engage physically and socially with the environment?
+* **Research Question**: Do spatial and physical exploration behaviors in museums significantly differ according to the gender of children?
 * **Main Hypothesis**: Movement and interaction patterns differ significantly based on the gender of the children.
 
 ## 2. Methodology & Dimensions
