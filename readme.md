@@ -34,6 +34,7 @@ Open the R Markdown: `GOUBE.amelie.Rmd`
 ## 3. Project Structure (Safe Project Logic)
 This repository follows the **Safe Project** standards for reproducible science:
 
+```
 GOUBE.AMELIE/
 ├── data/                  # Raw and cleaned datasets (data_clean.csv)
 ├── notebook/              # Working scripts and Python EDA
@@ -46,7 +47,7 @@ GOUBE.AMELIE/
 ├── GOUBE.Amelie.Rproj     # RStudio project file
 ├── .gitignore             # Files excluded from version control
 └── readme.md              # Project documentation
-
+```
 ## 4.Technical prerequisites
 Python Libraries: pandas, numpy, matplotlib, seaborn.
 
