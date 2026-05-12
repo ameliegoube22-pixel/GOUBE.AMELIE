@@ -31,8 +31,8 @@ Open the R Markdown: `GOUBE.amelie.Rmd`
 * **Outputs:** * **7 Statistical Boxplots** (annotated with p-values and effect sizes) automatically saved in `/results/figures/`.
     * **Final Report:** Run "Knit" to produce the HTML synthesis (`GOUBE.amelie.html`).
 
-## 3. Project Structure (Safe Project Logic)
-This repository follows the **Safe Project** standards for reproducible science:
+## 3. Project Structure 
+This repository follows this structure: 
 
 ```
 GOUBE.AMELIE/
