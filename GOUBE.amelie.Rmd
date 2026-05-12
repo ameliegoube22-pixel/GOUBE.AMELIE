@@ -19,7 +19,7 @@ library(rstatix)
 ```
 
 # 1. Data Preparation 
-## We import the cleaned dataset and format the grouping variable (sex).
+We import the cleaned dataset and format the grouping variable (sex).
 
 ```{r}
 # Importing the cleaned file from Python
@@ -36,7 +36,7 @@ df$sex <- factor(df$sex,
 ```
 
 # 2. Normality Assessment
-## Before choosing between a Parametric (T-test) or Non-Parametric (Wilcoxon) test, we check the distribution of each variable using the Shapiro-Wilk test.
+Before choosing between a Parametric (T-test) or Non-Parametric (Wilcoxon) test, we check the distribution of each variable using the Shapiro-Wilk test.
 
 ```{r}
 # List of behaviors to analyze
@@ -59,7 +59,7 @@ for (var in behavioral_vars) {
 ```
 
 # 3. Gender Comparison: Girls vs. Boys
-## Since most variables are non-normal (p < 0.05) and our sample size is small (n=10),the Wilcoxon Rank Sum test is the most robust choice.
+Since most variables are non-normal (p < 0.05) and our sample size is small (n=10),the Wilcoxon Rank Sum test is the most robust choice.
 
 ```{r}
 # Creating the comparison plot
@@ -74,25 +74,27 @@ for (var in behavioral_vars) {
   print(shapiro_res)
   
   # Visualizing and Comparing Groups
-  # We use 'ggboxplot' from the ggpubr package.
-  p <- ggboxplot(df, x = "sex", y = var,
-            fill = "sex", 
-            palette = "jco", 
-            add = "jitter", # Jitter shows the 10 individual observation points
-            title = paste("Gender effect on", var),
-            subtitle = paste("Shapiro-Wilk p-value:", round(shapiro_res$p.value, 4)),
-            ylab = "Observation Score", 
-            xlab = "Gender (f = girls, g = boys)") +
+p <- ggboxplot(df, x = "sex", y = var,
+               fill = "sex", 
+               palette = "jco", 
+               add = "jitter",
+               na.rm = TRUE,     
+               title = paste("Gender effect on", var),
+               subtitle = paste("Shapiro-Wilk p-value:", round(shapiro_res$p.value, 4)),
+               ylab = "Observation Score", 
+               xlab = "Gender (f = girls, g = boys)") +
     
     # Add the Wilcoxon test p-value directly onto the plot
-    stat_compare_means(method = "wilcox.test", label.x = 1.5)
+    stat_compare_means(method = "wilcox.test", 
+                       label.x = 1.5, 
+                       na.rm = TRUE) 
   
   print(p)
 }
 ```
 
 # 4. Global Engagement Score
-## In this section, we analyze individual behaviors and then create a composite'Global Engagement Score' to synthesize the child's overall activity.
+In this section, we analyze individual behaviors and then create a composite'Global Engagement Score' to synthesize the child's overall activity.
 
 ```{r behavioral_analysis}
 # Defining the variables to analyze (Quantitative & Ordinal)
@@ -120,19 +122,22 @@ for (v in variables_to_analyze) {
   print(eff_size)
   
   # 3. Visualization with ggboxplot
-  # We include jitter points to show the 10 individual observations
-  p <- ggboxplot(df, x = "sex", y = v,
-            fill = "sex", 
-            palette = "npg", 
-            add = "jitter", 
-            title = paste("Comparison by Gender:", v),
-            subtitle = paste("Effect Size r =", round(eff_size$effsize, 3)),
-            ylab = "Observation Score", 
-            xlab = "Gender Group") +
-    stat_compare_means(method = "wilcox.test", label.y.npc = "top")
-  
-  # Display the plot in the report
-  print(p)
+# We include jitter points to show the 10 individual observations
+p <- ggboxplot(df, x = "sex", y = v,
+          fill = "sex", 
+          palette = "npg", 
+          add = "jitter", 
+          na.rm = TRUE,    
+          title = paste("Comparison by Gender:", v),
+          subtitle = paste("Effect Size r =", round(eff_size$effsize, 3)),
+          ylab = "Observation Score", 
+          xlab = "Gender Group") +
+  stat_compare_means(method = "wilcox.test", 
+                     label.y.npc = "top", 
+                     na.rm = TRUE)   
+
+# Display the plot in the report
+print(p)
   
 } 
 ```
@@ -161,7 +166,8 @@ p_global <- ggboxplot(df, x = "sex", y = "global_engagement",
 
 print(p_global)
 ```
-# 5. Discussion
+
+### 5. Discussion
 
 ## 5.1 Statistical Summary
 The objective of this analysis was to determine if gender influences children's motor behavior and engagement at the Fabre Museum. Based on our sample of 10 observations, we can conclude the following:
