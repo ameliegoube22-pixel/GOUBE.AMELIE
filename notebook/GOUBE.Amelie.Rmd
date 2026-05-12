@@ -23,7 +23,8 @@ library(rstatix)
 
 ```{r}
 # Importing the cleaned file from Python
-df <- read.csv("data/data_clean.csv", sep = ";")
+getwd()
+df <- read.csv("../data/data_clean.csv", sep = ";")
 # Quick chek
 str(df)
 ```
@@ -165,4 +166,67 @@ p_global <- ggboxplot(df, x = "sex", y = "global_engagement",
 print(p_global)
 ```
 
+```{r}
 
+# 1. Path definition (Relative path for cross-platform compatibility)
+# Defines the destination folder relative to the project root
+target_path <- "results/figures/"
+
+# Safety: Create the directory if it does not exist
+if (!dir.exists(target_path)) {
+  dir.create(target_path, recursive = TRUE)
+}
+
+# 2. List of variables to analyze
+variables_to_analyze <- c("number_of_zones_explored", "movement_autonomy", 
+                          "orientation_towards_artwork", "postural_adjustment", 
+                          "overall_motor_engagement", "interaction_with_adults")
+
+# 3. Analysis and export loop
+for (v in variables_to_analyze) {
+  
+  # Statistical calculations (Shapiro-Wilk + Wilcoxon + Effect Size)
+  shap_p <- shapiro.test(na.omit(df[[v]]))$p.value
+  eff_size <- df %>% 
+    filter(!is.na(.data[[v]])) %>%
+    rstatix::wilcox_effsize(as.formula(paste(v, "~ sex")))
+  
+  # Plot creation
+  p <- ggboxplot(df, x = "sex", y = v,
+            fill = "sex", palette = "npg", add = "jitter",
+            title = paste("Gender impact on:", v),
+            subtitle = paste("Normality p:", round(shap_p, 3), " | Effect Size r:", round(eff_size$effsize, 3)),
+            ylab = "Score", xlab = "Gender") +
+    stat_compare_means(method = "wilcox.test", label.y.npc = "top")
+  
+  # Console display
+  print(p)
+  
+  # DIRECT EXPORT to the Results folder
+  # Uses the relative path defined above
+  ggsave(
+    filename = paste0(target_path, "boxplot_", v, ".png"),
+    plot = p,
+    width = 7, height = 5, dpi = 300
+  )
+}
+
+# 4. Global Score and final export
+df$global_engagement <- rowMeans(df[, c("movement_autonomy", "postural_adjustment", "overall_motor_engagement")], na.rm = TRUE)
+
+p_global <- ggboxplot(df, x = "sex", y = "global_engagement",
+            fill = "sex", palette = "jco", add = "jitter",
+            title = "Global Engagement Score Synthesis",
+            ylab = "Mean Score", xlab = "Gender") +
+    stat_compare_means(method = "wilcox.test")
+
+print(p_global)
+
+ggsave(
+  filename = paste0(target_path, "global_engagement_score.png"),
+  plot = p_global,
+  width = 7, height = 5, dpi = 300
+)
+
+cat("Done! All files are now in:", target_path)
+```

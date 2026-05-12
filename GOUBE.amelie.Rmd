@@ -18,8 +18,8 @@ library(ggpubr)
 library(rstatix)
 ```
 
-##1. Data Preparation 
-#We import the cleaned dataset and format the grouping variable (sex).
+# 1. Data Preparation 
+## We import the cleaned dataset and format the grouping variable (sex).
 
 ```{r}
 # Importing the cleaned file from Python
@@ -35,8 +35,8 @@ df$sex <- factor(df$sex,
                  labels = c("Girls", "Boys"))
 ```
 
-##2. Normality Assessment
-#Before choosing between a Parametric (T-test) or Non-Parametric (Wilcoxon) test, we check the distribution of each variable using the Shapiro-Wilk test.
+# 2. Normality Assessment
+## Before choosing between a Parametric (T-test) or Non-Parametric (Wilcoxon) test, we check the distribution of each variable using the Shapiro-Wilk test.
 
 ```{r}
 # List of behaviors to analyze
@@ -58,12 +58,11 @@ for (var in behavioral_vars) {
 }
 ```
 
-##3. Gender Comparison: Girls vs. Boys
-#Since most variables are non-normal (p < 0.05) and our sample size is small (n=10),the Wilcoxon Rank Sum test is the most robust choice.
+# 3. Gender Comparison: Girls vs. Boys
+## Since most variables are non-normal (p < 0.05) and our sample size is small (n=10),the Wilcoxon Rank Sum test is the most robust choice.
 
 ```{r}
-# Creating the comparison plot and most of the data isn't normally distributed.
-
+# Creating the comparison plot
 for (var in behavioral_vars) {
   
   # Print a header for each variable in the report
@@ -92,9 +91,8 @@ for (var in behavioral_vars) {
 }
 ```
 
-##4. Global Engagement Score
-# In this section, we analyze individual behaviors and then create a composite 
-# 'Global Engagement Score' to synthesize the child's overall activity.
+# 4. Global Engagement Score
+## In this section, we analyze individual behaviors and then create a composite'Global Engagement Score' to synthesize the child's overall activity.
 
 ```{r behavioral_analysis}
 # Defining the variables to analyze (Quantitative & Ordinal)
@@ -139,9 +137,8 @@ for (v in variables_to_analyze) {
 } 
 ```
 
-# Global Engagement Score Creation
-# We merge key motor and attentional behaviors into a single indicator
-# to capture the overall 'presence' of the child in the museum space.
+# 4.2 Global Engagement Score Creation
+We merge key motor and attentional behaviors into a single indicator to capture the overall 'presence' of the child in the museum space.
 ```{r}
 df$global_engagement <- rowMeans(
   df[, c("movement_autonomy", "postural_adjustment", "overall_motor_engagement")], 
@@ -164,5 +161,24 @@ p_global <- ggboxplot(df, x = "sex", y = "global_engagement",
 
 print(p_global)
 ```
+# 5. Discussion
 
+## 5.1 Statistical Summary
+The objective of this analysis was to determine if gender influences children's motor behavior and engagement at the Fabre Museum. Based on our sample of 10 observations, we can conclude the following:
 
+* **Distribution & Test Choice:** The Shapiro-Wilk tests showed that most variables did not follow a normal distribution (p < 0.05). Consequently, we used the Wilcoxon Rank Sum test.
+* **Main Results:** No statistically significant difference was found between girls and boys (p > 0.05).
+* **Effect Size Insight:** We observed a moderate effect size (r ≈ 0.46) for postural adjustment, indicating a trend.
+
+## 5.2 Scientific Interpretation
+The results suggest that the museum environment acts as a "neutral" stimulus for young children. The physical interaction with the space and artworks seems to be driven more by individual curiosity than by gender-specific patterns.
+
+## 5.3 Technical Validation
+This project demonstrates a complete and reproducible data science workflow:
+
+* **Preprocessing:** Data was cleaned and formatted using Python (Pandas).
+* **Analysis:** Statistical modeling and advanced visualization were performed in R.
+* **Portability:** The project uses relative paths and a standardized structure (.Rproj).
+
+## 5.4 Limitations
+The primary limitation is the sample size (N=10), which limits the power of the statistical tests. Future studies should include more subjects to confirm the trends observed.
