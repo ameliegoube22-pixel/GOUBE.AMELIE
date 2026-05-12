@@ -25,7 +25,7 @@ Execute the notebook: `GOUBE.Amelie.ipynb`
 * **Outputs:** * Generates exploratory plots in the `/figures` folder.
     * Exports `data_clean.csv` to the `/data` folder for further analysis.
 
-###Inferential Statistics (R)
+### Inferential Statistics (R)
 Open the R Markdown: `GOUBE.amelie.Rmd`
 * **Process:** Performs **Shapiro-Wilk** normality tests and **Wilcoxon** non-parametric comparisons.
 * **Outputs:** * **7 Statistical Boxplots** (annotated with p-values and effect sizes) automatically saved in `/results/figures/`.
@@ -60,7 +60,7 @@ Key Findings:
 While several p-values exceed the 0.05 threshold due to limited power, the Effect Sizes (r) suggest moderate behavioral trends (r≈0.35). Specifically, postural adjustment and interaction with adults appear to vary between groups, though these results should be interpreted with caution and would benefit from a larger cohort study.
 
 ## 5. Sources 
-#1. Spatial and Material Engagement
+# 1. Spatial and Material Engagement
 
 Young children’s museum geographies: spatial, material and bodily ways of knowing
 
@@ -74,7 +74,7 @@ Relevance to Project: Validates variables such as distance travelled, number of 
 
 Reference: Children's Geographies | DOI: 10.1080/14733285.2018.1497141
 
-#2. Psychomotor Space Utilization
+# 2. Psychomotor Space Utilization
 
 L’utilisation de l’espace en psychomotricité
 
@@ -88,7 +88,7 @@ Relevance to Project: Justifies metrics for space occupation, spatial organizati
 
 Reference: Enfances & Psy | DOI: 10.3917/ep.033.0104
 
-#3. Visiting Patterns and Rhythms
+# 3. Visiting Patterns and Rhythms
 
 Expériences de visite de jeunes enfants accompagnés
 
@@ -102,7 +102,7 @@ Relevance to Project: Supports the analysis of number of movements, stopping dur
 
 Reference: Culture & Musées | DOI: 10.4000/culturemusees.1996
 
-#4. Meaning Making through Movement
+# 4. Meaning Making through Movement
 
 Zigging and zooming all over the place: Young children’s meaning making and movement in the museum
 
