@@ -1,90 +1,75 @@
 ---
-title: "A minimal notebook to analyse test data\n"
-author: "Denis MOTTET"
-date: "`r format(Sys.time(), '%d %B, %Y, %H:%M')`"
-output:
+title: "Fabre Museum Project: Statistical Analysis"
+author: "Amélie Goubé"
+date: "`r Sys.Date()`"
+output: 
   html_document:
-    df_print: paged
-    code_folding: hide
-    toc: false
-    number_sections: true
+    toc: true
+    toc_float: true
+    theme: united
 ---
 
-# Objective
-The goal of this notebook is to illustrate a minimal data analysis pipeline, from a data file to a result chart.   
-We shall count the number of individuals and save a graph of their gender distribution. 
-
-
-NOTE: this notebook follows the logic of the `.gitignore` file to ensure the confidentiality of personal data from human volunteers while allowing the testing of methods on pseudonymized data that we have made public.  
-- the `data` folder is not shared by Git, except for files in the `data/test_data/` subfolder.  
-- the `results` folder is not shared by Git, except for files in the `results/test_results/` subfolder.  
-
-
-# Load the data
-The data file is provided in the `data/test_data/` folder.  
-The csv file contains one individual per line and several columns, with the column name appearing in the first line of the file.
-
-```{r load_data, echo=TRUE, message=FALSE, warning=FALSE}
-# Load the data from the CSV file
-students <- read.csv("data/test_data/students.csv")
-# Display the first few rows of the dataset
-head(students)
-# Display the full structure of the dataset
-# View(students)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggpubr)
 ```
 
+```{r}
+# Importing the cleaned file from Python
+df <- read.csv("data/data_clean.csv", sep = ";")
+# Quick chek
+str(df)
+```
 
+```{r normality-all}
+# 1. List of all variables to test (excluding 'sex')
+vars <- c("number_of_zones_explored", "distance_travelled", "movement_autonomy", 
+          "orientation_towards_artwork", "postural_adjustment", "physical_approach", 
+          "overall_motor_engagement", "interaction_with_environment", 
+          "interaction_with_peers", "interaction_with_adults")
 
-
-# Count the number of students
-```{r count_students, echo=FALSE, message=FALSE, warning=FALSE}
-# Count the number of students in the dataset
-num_students <- nrow(students)
-
-# Print the number of students in a nice sentence 
-cat("The number of students in the dataset is:", num_students, "\n")
-``` 
-
-# Make a gender chart of students
-
-```{r plot_gender, echo=TRUE, message=FALSE, warning=FALSE}
-# Count males and females
-num_male = nrow(students[students$Gender == "M", ])
-num_female = nrow(students[students$Gender == "F", ])
-  
-# Save the counts in a data frame for plotting
-gender_df <- data.frame(
-  gender = c("Male", "Female"),
-  count = c(num_male, num_female)
-)
-
-# Add percentage and label for chart
-gender_df$percent <- round(gender_df$count / sum(gender_df$count) * 100, 1)
-gender_df$label <- paste0( gender_df$percent, "%")
-
-# Load ggplot2 for plotting
-library(ggplot2)
-
-ggplot(gender_df, aes(x = gender, y = count, fill = gender)) +
-  geom_bar( stat = "identity") +
-  theme(legend.position = "none") +
-  geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +
-  labs(title = "Gender Distribution")
+# 2. Shapiro-Wilk Tests (Manual list for clarity in your report)
+# We use na.omit() to ignore empty cells
+shapiro.test(na.omit(df$number_of_zones_explored))
+shapiro.test(na.omit(df$movement_autonomy))
+shapiro.test(na.omit(df$orientation_towards_artwork))
+shapiro.test(na.omit(df$postural_adjustment))
+shapiro.test(na.omit(df$physical_approach))
+shapiro.test(na.omit(df$overall_motor_engagement))
+shapiro.test(na.omit(df$interaction_with_environment))
+shapiro.test(na.omit(df$interaction_with_peers))
+shapiro.test(na.omit(df$interaction_with_adults))
 
 ```
 
+```{r}
+### 1. Spatial Exploration: Number of Zones
+ggboxplot(df, x = "sex", y = "number_of_zones_explored",
+          fill = "sex", palette = "jco", add = "jitter",
+          title = "Spatial Exploration by Gender",
+          ylab = "Zones Explored") +
+  stat_compare_means(method = "wilcox.test")
+```
+```{r}
+### 2. Postural Adjustment
+ggboxplot(df, x = "sex", y = "postural_adjustment",
+          fill = "sex", palette = "jco", add = "jitter",
+          title = "Postural Adjustment by Gender") +
+  stat_compare_means(method = "wilcox.test")
 
-# Save the gender chart in the results folder
+### 3. Orientation towards Artwork
+ggboxplot(df, x = "sex", y = "orientation_towards_artwork",
+          fill = "sex", palette = "jco", add = "jitter",
+          title = "Body Orientation by Gender") +
+  stat_compare_means(method = "wilcox.test")
+```
 
-The results file is saved in the `results/test_results/` folder. 
-
-```{r save_plot, echo=TRUE, message=FALSE, warning=FALSE}
-# save the gender distribution plot in the results folder
-fname <- "gender_distribution_plot.png"
-fpath <- "results/test_results"
-ggsave(filename = fname, path = fpath, units = "cm", width = 10, heigh = 5, scale = 1.5 )
-
-``` 
-
-
+```{r}
+### 4. Interaction with Adults
+ggboxplot(df, x = "sex", y = "interaction_with_adults",
+          fill = "sex", palette = "jco", add = "jitter",
+          title = "Social Interaction (Adults) by Gender") +
+  stat_compare_means(method = "wilcox.test")
+```
 
