@@ -35,6 +35,32 @@ The observational indicators are grouped into four theoretical dimensions:
 
 ---
 
+## 2. Project Architecture (Safe Structure)
+The project follows a rigorous structure to ensure the reproducibility of the analysis:
+
+* **data/**: Contains the source data (`data_observation.csv`) and the processed dataset (`data_clean.csv`).
+* **results/**: Automatic exports of statistical tables and graphical visualizations (Heatmaps, mean scores).
+* **figures/**: (Optional) Additional exploratory analysis plots.
+* **GOUBE_Amelie_Analysis.ipynb**: Python Notebook dedicated to cleaning, dimensional structuring, and initial descriptive analysis.
+* **Analysis_Script.R**: R script dedicated to inferential statistical testing (ANOVA, T-Tests).
+* **README.md**: General project documentation.
+
+---
+
+## 3. Methodology (Python Pipeline)
+
+The pre-processing phase was conducted using Python (Pandas/Seaborn) with the following objectives:
+
+1.  **Data Standardization**: Cleaning variable names (snake_case format), handling missing values (NA), and harmonizing data types.
+2.  **Dimensional Analysis**: Categorizing the 15+ raw observation variables into 4 conceptual dimensions:
+    * *Spatial Exploration* (e.g., zones explored, movement autonomy).
+    * *Engagement with Artwork* (e.g., posture, visual orientation).
+    * *Motor Engagement* (e.g., physical interaction with the environment).
+    * *Social Interactions* (e.g., exchanges with peers or adults).
+3.  **Exploratory Data Analysis (EDA)**: Calculating mean scores by gender and generating a correlation matrix to identify behavioral patterns.
+
+---
+
 ## 3. Project Structure
 
 This project follows the **"Safe Project Logic"** for reproducible science:
