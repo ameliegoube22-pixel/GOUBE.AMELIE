@@ -36,4 +36,7 @@ ameliegoube22-pixel/
 ├── GOUBE.Amelie.Rproj     # RStudio project file
 ├── .gitignore             # Files excluded from version control
 └── readme.md              # Project documentation
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48108ab52d4e0e3c175a2a682f7719cac89b8f7d
