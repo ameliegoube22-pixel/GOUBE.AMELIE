@@ -11,9 +11,15 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#Loading libraries
 library(tidyverse)
 library(ggpubr)
+library(rstatix)
 ```
+
+##1. Data Preparation 
+#We import the cleaned dataset and format the grouping variable (sex).
 
 ```{r}
 # Importing the cleaned file from Python
@@ -22,54 +28,141 @@ df <- read.csv("data/data_clean.csv", sep = ";")
 str(df)
 ```
 
-```{r normality-all}
-# 1. List of all variables to test (excluding 'sex')
-vars <- c("number_of_zones_explored", "distance_travelled", "movement_autonomy", 
-          "orientation_towards_artwork", "postural_adjustment", "physical_approach", 
-          "overall_motor_engagement", "interaction_with_environment", 
-          "interaction_with_peers", "interaction_with_adults")
-
-# 2. Shapiro-Wilk Tests (Manual list for clarity in your report)
-# We use na.omit() to ignore empty cells
-shapiro.test(na.omit(df$number_of_zones_explored))
-shapiro.test(na.omit(df$movement_autonomy))
-shapiro.test(na.omit(df$orientation_towards_artwork))
-shapiro.test(na.omit(df$postural_adjustment))
-shapiro.test(na.omit(df$physical_approach))
-shapiro.test(na.omit(df$overall_motor_engagement))
-shapiro.test(na.omit(df$interaction_with_environment))
-shapiro.test(na.omit(df$interaction_with_peers))
-shapiro.test(na.omit(df$interaction_with_adults))
-
+```{r}
+# Converting 'sex' into a factor to define the comparison groups
+df$sex <- factor(df$sex,
+                 levels = c("f", "g"),
+                 labels = c("Girls", "Boys"))
 ```
+
+##2. Normality Assessment
+#Before choosing between a Parametric (T-test) or Non-Parametric (Wilcoxon) test, we check the distribution of each variable using the Shapiro-Wilk test.
 
 ```{r}
-### 1. Spatial Exploration: Number of Zones
-ggboxplot(df, x = "sex", y = "number_of_zones_explored",
-          fill = "sex", palette = "jco", add = "jitter",
-          title = "Spatial Exploration by Gender",
-          ylab = "Zones Explored") +
-  stat_compare_means(method = "wilcox.test")
-```
-```{r}
-### 2. Postural Adjustment
-ggboxplot(df, x = "sex", y = "postural_adjustment",
-          fill = "sex", palette = "jco", add = "jitter",
-          title = "Postural Adjustment by Gender") +
-  stat_compare_means(method = "wilcox.test")
+# List of behaviors to analyze
+behavioral_vars <- c("number_of_zones_explored", "movement_autonomy", 
+                     "orientation_towards_artwork", "postural_adjustment", 
+                     "physical_approach", "overall_motor_engagement", 
+                     "interaction_with_environment", "interaction_with_peers", 
+                     "interaction_with_adults")
 
-### 3. Orientation towards Artwork
-ggboxplot(df, x = "sex", y = "orientation_towards_artwork",
-          fill = "sex", palette = "jco", add = "jitter",
-          title = "Body Orientation by Gender") +
-  stat_compare_means(method = "wilcox.test")
+# Using a loop here to avoid copy-pasting the same code for every single variable
+for (var in behavioral_vars) {
+  cat("\n\n### Analyzing behavior:", var, "\n")
+  
+  
+  # Checking for normality (Shapiro-Wilk test)
+  # Using na.omit so the code doesn't crash if there are empty cells (NAs)
+  shapiro_res <- shapiro.test(na.omit(df[[var]]))
+  print(shapiro_res)
+}
 ```
 
+##3. Gender Comparison: Girls vs. Boys
+#Since most variables are non-normal (p < 0.05) and our sample size is small (n=10),the Wilcoxon Rank Sum test is the most robust choice.
+
 ```{r}
-### 4. Interaction with Adults
-ggboxplot(df, x = "sex", y = "interaction_with_adults",
-          fill = "sex", palette = "jco", add = "jitter",
-          title = "Social Interaction (Adults) by Gender") +
-  stat_compare_means(method = "wilcox.test")
+# Creating the comparison plot and most of the data isn't normally distributed.
+
+for (var in behavioral_vars) {
+  
+  # Print a header for each variable in the report
+  cat("\n\n### Analyzing behavior:", var, "\n")
+  
+  # Normality Check (Shapiro-Wilk Test)
+  # We use na.omit to handle missing data (NAs) so the test doesn't fail.
+  shapiro_res <- shapiro.test(na.omit(df[[var]]))
+  print(shapiro_res)
+  
+  # Visualizing and Comparing Groups
+  # We use 'ggboxplot' from the ggpubr package.
+  p <- ggboxplot(df, x = "sex", y = var,
+            fill = "sex", 
+            palette = "jco", 
+            add = "jitter", # Jitter shows the 10 individual observation points
+            title = paste("Gender effect on", var),
+            subtitle = paste("Shapiro-Wilk p-value:", round(shapiro_res$p.value, 4)),
+            ylab = "Observation Score", 
+            xlab = "Gender (f = girls, g = boys)") +
+    
+    # Add the Wilcoxon test p-value directly onto the plot
+    stat_compare_means(method = "wilcox.test", label.x = 1.5)
+  
+  print(p)
+}
 ```
+
+##4. Global Engagement Score
+# In this section, we analyze individual behaviors and then create a composite 
+# 'Global Engagement Score' to synthesize the child's overall activity.
+
+```{r behavioral_analysis}
+# Defining the variables to analyze (Quantitative & Ordinal)
+variables_to_analyze <- c("number_of_zones_explored", "movement_autonomy", 
+                          "orientation_towards_artwork", "postural_adjustment", 
+                          "overall_motor_engagement", "interaction_with_adults")
+
+# Running the loop for statistical analysis and visualization
+# We use 'v' as a placeholder for each variable in the list
+for (v in variables_to_analyze) {
+  
+  cat("\n\n### Statistical Analysis for:", v, "\n")
+  
+  # 1. Wilcoxon Rank Sum Test
+  # We use rstatix:: to avoid conflicts and handle non-normal data
+  test_result <- df %>% 
+    rstatix::wilcox_test(as.formula(paste(v, "~ sex")))
+  print(test_result)
+  
+  # 2. Effect Size (r)
+  # Crucial for small samples (n=10) to measure the strength of the relationship
+  eff_size <- df %>% 
+    filter(!is.na(.data[[v]])) %>%
+    rstatix::wilcox_effsize(as.formula(paste(v, "~ sex")))
+  print(eff_size)
+  
+  # 3. Visualization with ggboxplot
+  # We include jitter points to show the 10 individual observations
+  p <- ggboxplot(df, x = "sex", y = v,
+            fill = "sex", 
+            palette = "npg", 
+            add = "jitter", 
+            title = paste("Comparison by Gender:", v),
+            subtitle = paste("Effect Size r =", round(eff_size$effsize, 3)),
+            ylab = "Observation Score", 
+            xlab = "Gender Group") +
+    stat_compare_means(method = "wilcox.test", label.y.npc = "top")
+  
+  # Display the plot in the report
+  print(p)
+  
+} 
+```
+
+# Global Engagement Score Creation
+# We merge key motor and attentional behaviors into a single indicator
+# to capture the overall 'presence' of the child in the museum space.
+```{r}
+df$global_engagement <- rowMeans(
+  df[, c("movement_autonomy", "postural_adjustment", "overall_motor_engagement")], 
+  na.rm = TRUE
+)
+
+# We perform the test and SAVE it into 'global_test'
+# We use rstatix:: to be safe from the error we saw earlier
+global_test <- df %>% 
+  rstatix::wilcox_test(global_engagement ~ sex)
+print(global_test)
+
+# Global visualization
+p_global <- ggboxplot(df, x = "sex", y = "global_engagement",
+            fill = "sex", palette = "jco", add = "jitter",
+            title = "Global Engagement Score by Gender",
+            ylab = "Mean Engagement Score", 
+            xlab = "Gender") +
+    stat_compare_means(method = "wilcox.test")
+
+print(p_global)
+```
+
 
