@@ -25,11 +25,8 @@ Execute the notebook: `GOUBE.Amelie.ipynb`
 * **Outputs:** * Generates exploratory plots in the `/figures` folder.
     * Exports `data_clean.csv` to the `/data` folder for further analysis.
 
-<<<<<<< HEAD
-###Inferential Statistics (R)
-=======
 ### Inferential Statistics (R)
->>>>>>> 7edc298ae25f7ea1324efd6e587c64a08f9e244b
+
 Open the R Markdown: `GOUBE.amelie.Rmd`
 * **Process:** Performs **Shapiro-Wilk** normality tests and **Wilcoxon** non-parametric comparisons.
 * **Outputs:** * **7 Statistical Boxplots** (annotated with p-values and effect sizes) automatically saved in `/results/figures/`.
@@ -45,6 +42,7 @@ GOUBE.AMELIE/
 ├── figures/               # Exploratory plots (Python/R)
 ├── results/               # FINAL OUTPUTS
 │   └── figures/           # Automated statistical boxplots (R)
+├── sources/               # References for Fabre project
 ├── GOUBE.Amelie.ipynb     # Python: Data cleaning & EDA
 ├── GOUBE.amelie.Rmd       # R: Statistical modeling & Hypothesis testing
 ├── GOUBE.amelie.html      # Exported final report
